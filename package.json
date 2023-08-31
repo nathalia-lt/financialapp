@@ -1,0 +1,18 @@
+{
+  "name": "financialapp",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.0.1",
+    "jsdom": "^22.1.0",
+    "vite": "^4.4.5",
+    "vitest": "^0.34.2"
+  }
+}
