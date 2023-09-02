@@ -1,25 +1,17 @@
 import Item from './Item';
 //eu estou importando item (que e uma classe e vou usar dentro de outra classe, no caso cashBook)
-import { getFromStorage, setToStorage } from '../services/localStorage.js';
-
-
-//tati
-//nesse projeto, temos duas classes como model?
-//cashbook e item?? ambos fazem alteracoes.
-//btw meu storage nao ta funcionando, mudei ele algumas vezes de lugar pq achei que era isso. mas nao
-//ate apareceu os valores la de lancamento, porem nao esta em formato de objeto
 
 
 export default class CashBook {
-    //tati
-    //aqui eu estou tentando fazer sentido, eu tenho que pegar tudo do meu item e colocar no storage, certo?? Pq aqui nao coloco no construtor? ja que vou receber uma array vazia de transacoes ou se nao vou "cria-la" com o que tenho no storage
-    #transactions = getFromStorage(Item) || [];
+    #transactions = [];
     //#transactions
     #balance = 0;
+    #storage = null;
 
-    constructor() {
-        //testando, coloquei dentro do construtor pq irei contruir uma array no meu storage. faz sentido?
-        //this.#transactions = getFromStorage(Item) || [];
+    constructor(storage) {
+        this.#storage = storage // na memoria de persistencia        
+        this.#transactions = storage.get()?.transactions || []
+        this.#balance = storage.get()?.balance || 0 //na memoria RAM
     }
 
     /**
@@ -28,9 +20,11 @@ export default class CashBook {
      * @returns {void}
      */
     addTransaction(item) {
-        this.#transactions.push(item);
+        this.#transactions.push(item.transaction);
         //quando eu vou fazer um lancamento, eu tenho que atualizar o saldo
         this.#updateBalance(item);
+
+        this.#persist();
     }
 
     /**
@@ -45,25 +39,35 @@ export default class CashBook {
         } else {
             this.#balance -= item.value;
         }
-        //tati
-        //aqui a unica coisa que atualizo no storage is o balance? ja que e a unica coisa que estou alterando nessa funcao
-        setToStorage(this.#balance)
     }
-    get transactions(){
+    //funcao provada para eu salvar o estado atual no local storage
+    #persist() {
+        this.#storage.set(
+            {
+                transactions: this.#transactions,
+                balance: this.#balance
+            }
+        )
+    }
+
+    get transactions() {
         return this.#transactions
     }
-    
+
     get balance() {
         return this.#balance;
     }
     //tati
     //estou pensando que a pessoa possa ter lancado o alguma coisa por engano e queira editar. Nesse caso a minha funcao nao pode ser privada, ne?
-    editTransaction(index, newTransaction){
+    // pensar mais na lógica
+    editTransaction(index, newTransaction) {
         this.#transactions[index] = newTransaction
-        setToStorage(this.#transactions)
+        
+        this.#persist()
     }
-    removeTransaction(transactionToRemove){
+    removeTransaction(transactionToRemove) {
         this.#transactions = this.#transactions.filter((transaction) => transaction !== transactionToRemove)
-        setToStorage(this.#transactions)
+        
+        this.#persist()
     }
 }
