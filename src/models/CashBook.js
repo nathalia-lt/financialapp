@@ -1,17 +1,22 @@
 import Item from './Item';
 //eu estou importando item (que e uma classe e vou usar dentro de outra classe, no caso cashBook)
 
+//vou ter um model para cada objeto, model é para estruturar o meu problema, modelar mesmo. explicando o que meu programa faz, responsavel por fazer funcionar. eu nao preciso um view para cada model necessariamente.
 
 export default class CashBook {
     #transactions = [];
     //#transactions
     #balance = 0;
     #storage = null;
+    #title = '';
 
-    constructor(storage) {
-        this.#storage = storage // na memoria de persistencia        
+
+    constructor(storage, title) {
+        //ele inicia as propriedades do cashbook, inicia o cashbook
+        this.#storage = storage // na memoria de persistencia, memoria do disco rigido HD.      
         this.#transactions = storage.get()?.transactions || []
-        this.#balance = storage.get()?.balance || 0 //na memoria RAM
+        this.#balance = storage.get()?.balance || 0 //na memoria RAM, fechou a janela some
+        this.#title = title
     }
 
     /**
@@ -20,6 +25,9 @@ export default class CashBook {
      * @returns {void}
      */
     addTransaction(item) {
+        //quando eu adiciono uma transacao eu faco um push para minhas transactions
+
+        //aqui eu estou fazendo o push daquele objeto simples (para o meu local storage poder ler) que tive que criar na minha class Item
         this.#transactions.push(item.transaction);
         //quando eu vou fazer um lancamento, eu tenho que atualizar o saldo
         this.#updateBalance(item);
@@ -40,7 +48,9 @@ export default class CashBook {
             this.#balance -= item.value;
         }
     }
-    //funcao provada para eu salvar o estado atual no local storage
+    //funcao privada para eu salvar o estado atual no local storage
+    //vai salvar no storage minha transaction e meu balance
+    //vou salvar as informacoes toda de uma vez
     #persist() {
         this.#storage.set(
             {
@@ -48,6 +58,10 @@ export default class CashBook {
                 balance: this.#balance
             }
         )
+    }
+
+    get title() {
+        return this.#title;
     }
 
     get transactions() {
@@ -60,8 +74,13 @@ export default class CashBook {
     //tati
     //estou pensando que a pessoa possa ter lancado o alguma coisa por engano e queira editar. Nesse caso a minha funcao nao pode ser privada, ne?
     // pensar mais na lógica
-    editTransaction(index, newTransaction) {
-        this.#transactions[index] = newTransaction
+    editTransaction(oldTransaction, newTransaction) {
+        this.#transactions = this.#transactions.map (transaction => {
+            if (transaction === oldTransaction){
+                return newTransaction
+            }
+            return transaction
+        })
         
         this.#persist()
     }
