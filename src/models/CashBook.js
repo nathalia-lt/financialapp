@@ -10,7 +10,7 @@ export default class CashBook {
     #storage = null;
     #title = '';
 
-
+//eu estou passando o storage como construtor para que o cashbook possa fazer a persistencia dos dados. pq o cashbook em si nao faz isso.
     constructor(storage, title) {
         //ele inicia as propriedades do cashbook, inicia o cashbook
         this.#storage = storage // na memoria de persistencia, memoria do disco rigido HD.      
@@ -84,9 +84,18 @@ export default class CashBook {
         
         this.#persist()
     }
-    removeTransaction(transactionToRemove) {
-        this.#transactions = this.#transactions.filter((transaction) => transaction !== transactionToRemove)
-        
+    //funcao do modelo, vai alterar. como eu chamo ela? quem vai disparar?
+    removeTransaction(id) {
+        const transaction = this.#transactions.find(transaction => transaction.id === id)
+        if (!transaction) {
+            // retorna ou emite um erro
+        }
+        if (transaction.type === Item.INCOME) {
+            this.#balance -= transaction.value;
+        } else {
+            this.#balance += transaction.value
+        }
+        this.#transactions = this.#transactions.filter(transaction => transaction.id !== id)
         this.#persist()
     }
 }
