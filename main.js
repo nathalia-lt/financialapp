@@ -3,17 +3,18 @@ import Item from './src/models/Item'
 import CashBook from './src/models/CashBook'
 import Storage from './src/services/Storage'
 import ItemTransaction from './src/views/ItemTransaction'
+import InsertItemForm from './src/views/InsertItemForm'
 
 
 //class tem methodos e propriedades
 //methodos sao as funcoes
 
-class App{
+class App {
 
-  #cashbooks = []; 
+  #cashbooks = [];
   #app_html = null;
 
-  constructor(cashbooks){
+  constructor(cashbooks) {
     this.#cashbooks = cashbooks
     this.#app_html = document.getElementById('app')
 
@@ -23,76 +24,138 @@ class App{
   }
 
   init() {
+    this.#renderInsertItemForm()
     this.#renderButton()
-    this.#cashbooks.forEach(({object, id}) => {
+    this.#cashbooks.forEach(({ object, id }) => {
       this.#renderCashBook(object, id)
     })
   }
 
-/**
- * @param {string} id it is the container identification
- * @param {CashBook} cashbook 
- */
-#renderCashBook(cashbook, id) {
-  const cashbook_container = document.createElement('div')
-  cashbook_container.id = id
-  cashbook_container.classList.add('cashbook-container')
+  #renderInsertItemForm() {
+    const insertForm_template = InsertItemForm.render(this.#cashbooks)
+    this.#app_html.insertAdjacentHTML('beforeend', insertForm_template)
 
-  const title = document.createElement('h2')
-  title.innerText += cashbook.title
-  cashbook_container.appendChild(title)
+    //pegar o botao e adicionar o evento de click
+    const addItemBtn = document.getElementById('add-item')
+    //aqui estamos chamando a funcao que deve ser chamada quando click
+    addItemBtn.addEventListener('click', this.#handle_add_item.bind(this))
 
-  //eu to pegando o as transactions do meu cashbook, usando o get da minha classe.
-  //esse transaction possui aquele objeto simples de array de transacoes.
-
-  const transactions_container = document.createElement('div')
-  // transactions_container.id = id
-  transactions_container.classList.add('transactions-container')
-
-  cashbook.transactions.forEach(transaction => {
-    const html = ItemTransaction.render(transaction)
-    transactions_container.insertAdjacentHTML('beforeend', html)
-  })
-
-  transactions_container.addEventListener('click', (event) => this.#handle_click(event, cashbook))
-
-  cashbook_container.appendChild(transactions_container)
-  this.#app_html.appendChild(cashbook_container)
-}
-//funcao privada so pode ser acessada dentro da classe
-/**
- * 
- * @param {MouseEvent} event 
- * @param {CashBook} cashbook 
- * @returns {void} //void e vazio
- */
-#handle_click(event, cashbook) {
-  if (event.target.nodeName !== 'BUTTON') return
-  // console.log(deleteBtn.dataset)
-
-  const action = event.target.dataset.action
-
-  const transaction_el = event.currentTarget.querySelector('.transaction-container')
-  const id = transaction_el.dataset.id
-  console.log(id)
-
-  if (action === 'delete') {
-    //apagar no model
-    cashbook.removeTransaction(id)
-    //apagar na view
-    transaction_el.remove()
-  } else if (action === 'edit') {
-    // open a modal to edit the transaction
   }
-}
+
+  /**
+   * @param {string} id it is the container identification
+   * @param {CashBook} cashbook 
+   */
+  #renderCashBook(cashbook, id) {
+    const cashbook_container = document.createElement('div')
+    cashbook_container.id = id
+    cashbook_container.classList.add('cashbook-container')
+
+    const title = document.createElement('h2')
+    title.innerText += cashbook.title
+    cashbook_container.appendChild(title)
+
+    //eu to pegando o as transactions do meu cashbook, usando o get da minha classe.
+    //esse transaction possui aquele objeto simples de array de transacoes.
+
+    const transactions_container = document.createElement('div')
+    // transactions_container.id = id
+    transactions_container.classList.add('transactions-container')
+
+    cashbook.transactions.forEach(transaction => {
+      const html = ItemTransaction.render(transaction)
+      transactions_container.insertAdjacentHTML('beforeend', html)
+    })
+
+    transactions_container.addEventListener('click', (event) => this.#handle_click(event, cashbook))
+
+    cashbook_container.appendChild(transactions_container)
+    this.#app_html.appendChild(cashbook_container)
+  }
+  //funcao privada so pode ser acessada dentro da classe
+  /**
+   * 
+   * @param {MouseEvent} event 
+   * @param {CashBook} cashbook 
+   * @returns {void} //void e vazio
+   */
+  #handle_click(event, cashbook) {
+    if (event.target.nodeName !== 'BUTTON') return
+    // console.log(deleteBtn.dataset)
+
+    const action = event.target.dataset.action
+
+    const transaction_el = event.currentTarget.querySelector('.transaction-container')
+    const id = transaction_el.dataset.id
+    console.log(id)
+
+    if (action === 'delete') {
+      //apagar no model
+      cashbook.removeTransaction(id)
+      //apagar na view
+      transaction_el.remove()
+    } else if (action === 'edit') {
+      // open a modal to edit the transaction
+    }
+  }
+
+  #handle_add_item(event) {
+    //prevent default sempre que tem formulario
+    event.preventDefault()
+
+    console.log(event.target)
+
+    // pegar do formulário
+    //eu estou pegando o valor do meu formulario
+    const cashbook_id = document.getElementById('cashbooks').value
+    // type
+    const type = document.querySelector('input[name=transaction]:checked')?.value
+
+    // description
+    const description = document.getElementById('description').value
+
+    // value
+    const value = document.getElementById('value').value
+
+    // date
+    let date = document.getElementById('date').value
+
+
+    try {
+      const newItem = new Item(type, description, value, date)
+
+      this.#cashbooks.forEach(({ object, id }) => {
+        if (id == cashbook_id) {
+          console.log(object)
+          object.addTransaction(newItem)
+        }
+      })
+
+      const div = document.getElementById(cashbook_id)
+      const html = ItemTransaction.render(newItem.transaction)
+      div.insertAdjacentHTML('beforeend', html)
+
+      // this.#cashbooks é um array de objetos
+      // cada objeto tem esta forma {object: <cashBook>, id: <string> }
+
+
+      // adicionar o item no cashbook correto
+
+    } catch (error) {
+      alert(error.message)
+      return
+    }
+
+
+  }
 
   #renderButton() {
     const button = document.createElement('button')
     console.log(button)
     button.classList.add('add-btn')
-  
+
     button.innerText = 'create fake transactions'
-  
+
     button.addEventListener('click', () => {
       // estou criando objetos que seguem o modelo class Item
       const primeiro_gasto = new Item(Item.EXPENSES, 'compras', 1000, Item.currentDate)
@@ -101,16 +164,16 @@ class App{
       const div = document.getElementById('daily-expenses')
       const html = ItemTransaction.render(primeiro_gasto.transaction)
       div.insertAdjacentHTML('beforeend', html)
-  
+
       console.log("Lancei uma saida", cashBook.balance)
       cashBookTrip.addTransaction(entrada)
       const divtrip = document.getElementById('trip-expenses')
       const htmltrip = ItemTransaction.render(primeiro_gasto.transaction)
       divtrip.insertAdjacentHTML('beforeend', htmltrip)
-  
+
       console.log("Lancei uma entrada", cashBookTrip.balance)
       console.log('clicked')
-  
+
     })
     this.#app_html.appendChild(button)
   }
@@ -135,8 +198,8 @@ const storageViagem = new Storage('cashBookTrip')
 const cashBookTrip = new CashBook(storageViagem, 'NYC Trip')
 
 const cashbooks = [
-  {object: cashBook, id: 'daily-expenses'},
-  {object: cashBookTrip, id: 'trip-expenses'}
+  { object: cashBook, id: 'daily-expenses' },
+  { object: cashBookTrip, id: 'trip-expenses' }
 ]
 
 const app = new App(cashbooks)

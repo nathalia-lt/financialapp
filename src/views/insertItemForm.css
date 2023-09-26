@@ -1,0 +1,15 @@
+form {
+    padding: 1rem;
+    margin: 1rem;
+    background-color: #5a0808;
+}
+
+fieldset {
+    border: 0;
+    padding: 0.5rem 1rem;
+    
+}
+
+.add-cashbook-container {
+    display:none;
+}
