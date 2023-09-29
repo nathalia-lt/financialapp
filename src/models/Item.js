@@ -31,9 +31,9 @@ export default class Item {
         date = this.#parseDate(date);
         this.#validate(type, description, value, date);
 
-        this.#type = type;
+        this.#type = parseInt(type);
         this.#description = description;
-        this.#value = value;
+        this.#value = parseFloat(value);
         //??vai retornar o date atual caso a data seja nula ou indefinida (nao passada no construtor)
         // (date !== null || date !== undefined) ? date : new Date()
         //eu coloquei o primeiro ? para o meu test passar. quer dizer se tiver data passa se nao é nulo
@@ -89,7 +89,7 @@ export default class Item {
         return {
             description: this.#description,
             value: this.#value,
-            type: this.typeToString,
+            type: this.#type,
             date: this.#date,
             id: this.#id
         }

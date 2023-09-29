@@ -21,7 +21,7 @@ export default class ItemTransaction {
         <div class='transaction-container' data-id="${id}" style='display: flex; border: 2px solid red'>
             <p>${description}</p>
             <p>${value}</p>
-            <p>${type}</p>
+            <p>${ItemTransaction.typeToString(type)}</p>
             <p>${date}</p>
             <button class='edit-transaction' data-action="edit" >Edit</button>
             <button class='delete-transaction' data-action="delete">
@@ -33,4 +33,12 @@ export default class ItemTransaction {
         <div>
         `
     }
+    static typeToString(type){
+        if (type === 2){
+            return 'Expense'
+        }else {
+            return 'Income'
+        }
+    }
+    
 }

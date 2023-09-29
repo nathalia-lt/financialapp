@@ -14,6 +14,8 @@ export default class InsertItemForm {
         // o formulário de inserção de item
         //The self keyword is used to access the static members of the class present in the program
         return `
+        <details>
+            <summary>New Transaction</summary>
             <form>
                 <fieldset>
                 <label for='cashbooks'>Select a Cashbook</label>
@@ -55,6 +57,7 @@ export default class InsertItemForm {
                 <button id='add-item'> Add Item
                 </button>
             </form>
+        </details>    
         `
     }
     /**
