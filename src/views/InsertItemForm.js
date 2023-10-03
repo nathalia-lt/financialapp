@@ -40,21 +40,21 @@ export default class InsertItemForm {
                 </fieldset>
 
                 <fieldset>
-                    <label for='description' >Description</label>
+                    <label for='description' >Description:</label>
                     <input type="Text" id='description' name='description' />  
                 </fieldset>
                 
                 <fieldset>
-                    <label for='value'>Value</label>
+                    <label for='value'>Value:</label>
                     <input type="number" id='value' name='value' min='0.01' step='0.01'/>
                 </fieldset> 
 
                 <fieldset> 
-                    <label for='date'>Date</label>
+                    <label for='date'>Date:</label>
                     <input type="date" id='date' name='date'/>   
                 </fieldset> 
                 
-                <button id='add-item'> Add Item
+                <button id='add-item' class='add-item'> Add Item
                 </button>
             </form>
         </details>    

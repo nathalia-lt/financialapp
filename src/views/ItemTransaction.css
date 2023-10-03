@@ -1,0 +1,24 @@
+
+
+.transaction-container{
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #2f80ed;
+    padding: 0.5rem 1rem;
+    background-color: antiquewhite;
+}
+
+.edit-transaction{
+    padding: 0.3rem 0.6rem;
+    border-radius: 10px;
+    border: transparent;
+    background-color: #2f80ed;
+    color: #fff;
+
+}
+
+.delete-transaction{
+    width: 20px;
+    height: 20px;
+}

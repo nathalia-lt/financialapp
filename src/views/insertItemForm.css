@@ -1,7 +1,7 @@
 form {
     padding: 1rem;
     margin: 1rem;
-    background-color: #5a0808;
+    background-color: lightblue;
 }
 
 fieldset {
@@ -13,3 +13,69 @@ fieldset {
 .add-cashbook-container {
     display:none;
 }
+
+summary{
+    font-size: 1.2rem;
+}
+
+label{
+    font-size: 1.1rem;
+    
+}
+
+/* .add-item{
+    background-color: #0078d0;
+    border: 0;
+    padding: 0.4rem 0.8rem;
+    border-radius: 56px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.1rem;
+    backface-visibility: hidden;
+    font-weight: 500;
+    outline: 0;
+    text-decoration: none;
+    touch-action: manipulation;
+    transition: all .3s;
+    text-align: center;
+} */
+
+.add-item {
+    margin-top: 0.5rem;
+    background-color: #2f80ed;
+    border-radius: 10px;
+    border-style: none;
+    box-shadow: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: normal;
+    line-height: 1.5;
+    outline: none;
+    overflow: hidden;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    transform: translate3d(0, 0, 0);
+    transition: all .3s;
+}
+
+.add-item:hover{
+    background-color: #1366d6;
+    box-shadow: rgba(0, 0, 0, .05) 0 5px 30px, rgba(0, 0, 0, .05) 0 1px 4px;
+    opacity: 1;
+    transform: translateY(0);
+    transition-duration: .35s;
+}
+
+
+.add-item:active {
+    box-shadow: rgba(0, 0, 0, .1) 0 3px 6px 0, rgba(0, 0, 0, .1) 0 0 10px 0, rgba(0, 0, 0, .1) 0 1px 4px -1px;
+    transform: translateY(2px);
+    transition-duration: .35s;
+}
+
+
+
+

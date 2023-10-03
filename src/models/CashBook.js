@@ -5,7 +5,6 @@ import Item from './Item';
 
 export default class CashBook {
     #transactions = [];
-    //#transactions
     #balance = 0;
     #storage = null;
     #title = '';
@@ -71,19 +70,29 @@ export default class CashBook {
     get balance() {
         return this.#balance;
     }
-    //tati
-    //estou pensando que a pessoa possa ter lancado o alguma coisa por engano e queira editar. Nesse caso a minha funcao nao pode ser privada, ne?
-    // pensar mais na lógica
-    editTransaction(oldTransaction, newTransaction) {
-        this.#transactions = this.#transactions.map (transaction => {
-            if (transaction === oldTransaction){
-                return newTransaction
-            }
-            return transaction
-        })
-        
-        this.#persist()
+
+    // Nesse caso a minha funcao nao pode ser privada, ne?
+
+    // editTransaction(oldTransaction, newTransaction) {
+    //     this.#transactions = this.#transactions.map (transaction => {
+    //         if (transaction === oldTransaction){
+    //             return newTransaction
+    //         }
+    //         return transaction
+    //     })
+    //     this.#persist()
+    // }
+
+    //spread operator
+
+    /**
+     * @param {}, eu passo minha array de transacoes para usa-la
+     */
+    editTransaction(transactions){
     }
+
+
+    
     //funcao do modelo, vai alterar. como eu chamo ela? quem vai disparar?
     removeTransaction(id) {
         const transaction = this.#transactions.find(transaction => transaction.id === id)

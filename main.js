@@ -20,7 +20,7 @@ class App {
     this.#app_html = document.getElementById('app')
 
     this.#app_html.innerHTML = `
-      <h1>Hello Financial App!</h1>
+      <h1>Money Tracker</h1>
     `
   }
 
