@@ -8,14 +8,16 @@ export default class CashBook {
     #balance = 0;
     #storage = null;
     #title = '';
+    #id = '';
 
 //eu estou passando o storage como construtor para que o cashbook possa fazer a persistencia dos dados. pq o cashbook em si nao faz isso.
-    constructor(storage, title) {
+    constructor(storage, title, id) {
         //ele inicia as propriedades do cashbook, inicia o cashbook
         this.#storage = storage // na memoria de persistencia, memoria do disco rigido HD.      
         this.#transactions = storage.get()?.transactions || []
         this.#balance = storage.get()?.balance || 0 //na memoria RAM, fechou a janela some
         this.#title = title
+        this.#id = id
     }
 
     /**
@@ -71,6 +73,10 @@ export default class CashBook {
         return this.#balance;
     }
 
+    get id(){
+        return this.#id;
+    }
+
     // Nesse caso a minha funcao nao pode ser privada, ne?
 
     // editTransaction(oldTransaction, newTransaction) {
@@ -83,12 +89,28 @@ export default class CashBook {
     //     this.#persist()
     // }
 
-    //spread operator
+    
 
     /**
-     * @param {}, eu passo minha array de transacoes para usa-la
+     * @param {Item}
+     * 
+     * 
+     *         //estado e a soma de todas as caracteristicas
+        //item possui um estado {id, type, value, description}
+        //no front vamos alterar um ou mais valores produzindo um novo estado
+        //posso alterar cada propriedade do item ou posso gerar um novo item com as propriedades alteradas
+        //no front pra gerar um novo new Item(...)
+        // cashbook.editTransaction(oldId, newItem)
+        // procurar dentro da array de transactions o item que tem o id igual ao oldId
+        // substituir esse item pelo newItem
+        // !!!se mudar o type ou o value, preciso atualizar o balance também!!!
+     *  
      */
-    editTransaction(transactions){
+    editTransaction(oldId, newItem){
+        //eu nao preciso passar minhas funcoes addItem e removeTrasaction as a parametro pq elas ja estao dentro da minha classe
+        this.removeTransaction(oldId)
+        this.addTransaction(newItem)
+        return 
     }
 
 

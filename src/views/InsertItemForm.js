@@ -14,6 +14,7 @@ export default class InsertItemForm {
         // o formulário de inserção de item
         //The self keyword is used to access the static members of the class present in the program
         return `
+        
         <details>
             <summary>New Transaction</summary>
             <form>
@@ -66,9 +67,9 @@ export default class InsertItemForm {
      */
     static renderCashbooksOptions(cashbooks) {
         let template = ''
-        
-        cashbooks.forEach(({object, id}) => {
-            const option = `<option value='${id}'>${object.title}</option>`
+        //this object e o array de cashbooks
+        cashbooks.forEach((cashbook) => {
+            const option = `<option value='${cashbook.id}'>${cashbook.title}</option>`
             template += option
         })
 

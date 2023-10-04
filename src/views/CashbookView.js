@@ -9,12 +9,11 @@ export default class CashbookView{
 
     }
     /**
-   * @param {string} id it is the container identification
    * @param {CashBook} cashbook 
    */
-    static render(cashbook, id, app_html, handle_click){
+    static render(cashbook, app_html, handle_click){
         const cashbook_container = document.createElement('div')
-        cashbook_container.id = id
+        cashbook_container.id = cashbook.id 
         cashbook_container.classList.add('cashbook-container')
         
         const details = document.createElement('details')

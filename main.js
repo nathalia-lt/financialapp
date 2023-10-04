@@ -5,6 +5,7 @@ import Storage from './src/services/Storage'
 import ItemTransaction from './src/views/ItemTransaction'
 import InsertItemForm from './src/views/InsertItemForm'
 import CashbookView from './src/views/CashbookView'
+import EditItemForm from './src/views/EditItemForm'
 
 
 //class tem methodos e propriedades
@@ -26,8 +27,8 @@ class App {
 
   init() {
     this.#renderInsertItemForm()
-    this.#cashbooks.forEach(({ object, id }) => {
-      CashbookView.render(object, id, this.#app_html, this.#handle_click)
+    this.#cashbooks.forEach((cashbook) => {
+      CashbookView.render(cashbook, this.#app_html, this.#handle_click)
     })
   }
 
@@ -67,6 +68,11 @@ class App {
       transaction_el.remove()
     } else if (action === 'edit') {
       // open a modal to edit the transaction
+      const transaction = {...transaction_el.dataset}
+
+      EditItemForm.render(this.#cashbooks, transaction, cashbook)
+      //colocar esse formulario dentro do modal, colocar uma div. 
+      //create element e adjacent
     }
   }
 
@@ -94,10 +100,9 @@ class App {
     try {
       const newItem = new Item(type, description, value, date)
 
-      this.#cashbooks.forEach(({ object, id }) => {
-        if (id == cashbook_id) {
-          console.log(object)
-          object.addTransaction(newItem)
+      this.#cashbooks.forEach((cashbook) => {
+        if (cashbook.id == cashbook_id) {
+          cashbook.addTransaction(newItem)
         }
       })
 
@@ -127,17 +132,14 @@ class App {
 
 
 const cashBookStorage = new Storage('cashBook')
-const cashBook = new CashBook(cashBookStorage, 'Daily Expenses')
+const cashBook = new CashBook(cashBookStorage, 'Daily Expenses', 'daily-expenses')
 
 //outro exemplo de dependency injection
 //vai criar uma nova key no meu localstorage
 const storageViagem = new Storage('cashBookTrip')
-const cashBookTrip = new CashBook(storageViagem, 'NYC Trip')
+const cashBookTrip = new CashBook(storageViagem, 'NYC Trip', 'trip-expenses')
 
-const cashbooks = [
-  { object: cashBook, id: 'daily-expenses' },
-  { object: cashBookTrip, id: 'trip-expenses' }
-]
+const cashbooks = [cashBook, cashBookTrip]
 
 const app = new App(cashbooks)
 app.init()
