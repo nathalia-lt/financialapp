@@ -57,7 +57,6 @@ export default class Item {
     get typeToString() {
         return this.#type === 1 ? 'income' : 'expense';
     }
-
     get date() {
         return this.#date;
     }

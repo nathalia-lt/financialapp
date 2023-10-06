@@ -17,7 +17,7 @@ export default class InsertItemForm {
         
         <details>
             <summary>New Transaction</summary>
-            <form>
+            <form class='modal-content'>
                 <fieldset>
                 <label for='cashbooks'>Select a Cashbook</label>
                 <select name='cashbooks' id='cashbooks'>
@@ -72,7 +72,6 @@ export default class InsertItemForm {
             const option = `<option value='${cashbook.id}'>${cashbook.title}</option>`
             template += option
         })
-
         return template
     }
 }

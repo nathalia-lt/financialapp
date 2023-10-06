@@ -1,9 +1,9 @@
 import CashBook from "../models/CashBook";
+import InsertItemForm from "./InsertItemForm";
 
+export default class EditItemForm {
 
-export default class EditItemForm{
-
-    constructor(){
+    constructor() {
 
     }
 
@@ -13,9 +13,10 @@ export default class EditItemForm{
      * @returns 
      */
 
-    static render(cashbooks, transaction, cashbook){
+    static render(cashbooks, transaction, cashbook) {
         const { description, value, type, date, id } = transaction;
-
+        console.log(transaction)
+        const date1 = new Date(date)
         //coloca div com classe display e nao display none
         return `
         <form>
@@ -53,29 +54,30 @@ export default class EditItemForm{
 
                 <fieldset> 
                     <label for='date'>Date:</label>
-                    <input type="date" id='date' name='date'/ value="${date}">   
+                    <input type="date" id='date' name='date'/ value="${date1}">   
                 </fieldset> 
                 
-                <button id='add-item' class='add-item'> Add Item
+                <button id='save-btn' class='save-btn'> Save
                 </button>
             </form>
 
         `
     }
 
-/**
-     * 
-     * @param {object} cashbooks
-     * @param {string}, cashbook ao qual meu item pertence
-     */
-static renderCashbooksOptions(cashbooks, cashbook) {
-    let template = ''
-    
-    cashbooks.forEach(({object, id}) => {
-        const option = `<option value='${id}' ${cashbook == id ? 'selected' : ''}>${object.title}</option>`
-        template += option
-    })
+    /**
+         * 
+         * @param {object} cashbooks
+         * @param {string}, cashbook ao qual meu item pertence
+         */
+    static renderCashbooksOptions(cashbooks, cashbook) {
+        let template = ''
 
-    return template
-}
+        //aqui eu tenho que trocar pra cashbook
+        cashbooks.forEach(({ object, id }) => {
+            const option = `<option value='${id}' ${cashbook == id ? 'selected' : ''}>${object.title}</option>`
+            template += option
+        })
+
+        return template
+    }
 }

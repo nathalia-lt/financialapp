@@ -22,4 +22,34 @@ h1 {
   text-align: center;
 }
 
+/* modal style */
+
+.modal-container{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 10;
+  background-color: #000c;
+  right: 0;
+  /* transform: translateX(100%); */
+  transition: transform ease-in-out 0.9s;
+}
+
+
+.modal-content{
+  background-color: #fff;
+  border-radius: 10px;
+  width: 50vw;
+  height: 80vh;
+  z-index: 16;
+  position: absolute;
+  left: 25vw;
+  top: 10vh;
+  overflow-y: auto;
+}
+
+.show-modal{
+  display: block;
+}
+
 

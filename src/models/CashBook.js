@@ -77,20 +77,6 @@ export default class CashBook {
         return this.#id;
     }
 
-    // Nesse caso a minha funcao nao pode ser privada, ne?
-
-    // editTransaction(oldTransaction, newTransaction) {
-    //     this.#transactions = this.#transactions.map (transaction => {
-    //         if (transaction === oldTransaction){
-    //             return newTransaction
-    //         }
-    //         return transaction
-    //     })
-    //     this.#persist()
-    // }
-
-    
-
     /**
      * @param {Item}
      * 
@@ -113,8 +99,6 @@ export default class CashBook {
         return 
     }
 
-
-    
     //funcao do modelo, vai alterar. como eu chamo ela? quem vai disparar?
     removeTransaction(id) {
         const transaction = this.#transactions.find(transaction => transaction.id === id)

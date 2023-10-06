@@ -18,7 +18,7 @@ export default class ItemTransaction {
         const { description, value, type, date, id } = transaction;
 
         return `
-        <div class='transaction-container' data-id="${id}">
+        <div class='transaction-container' data-id="${id}" data-description="${description}" data-value="${value}" data-date="${date}">
             <p>${description}</p>
             <p>${value}</p>
             <p>${ItemTransaction.typeToString(type)}</p>
@@ -32,12 +32,12 @@ export default class ItemTransaction {
         <div>
         `
     }
-    static typeToString(type){
-        if (type === 2){
+    static typeToString(type) {
+        if (type === 2) {
             return 'Expense'
-        }else {
+        } else {
             return 'Income'
         }
     }
-    
+
 }

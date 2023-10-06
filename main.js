@@ -28,8 +28,21 @@ class App {
   init() {
     this.#renderInsertItemForm()
     this.#cashbooks.forEach((cashbook) => {
-      CashbookView.render(cashbook, this.#app_html, this.#handle_click)
+
+      CashbookView.render(cashbook, this.#app_html)
+
+      const transactions_container = document.getElementById(cashbook.id)
+
+      //arrow function nao tem this
+      transactions_container.addEventListener('click', (event) => {
+        console.log(this)
+        console.log(this.#handle_click)
+        this.#handle_click(event, cashbook)
+      })
     })
+    //eu estou adicionando um evento de click no container transactions, que vai ser tratado pela funcao handle click. Essa vai verificar se for um botao. vai ver se e edit or add e vai executar
+
+
   }
 
   #renderInsertItemForm() {
@@ -58,21 +71,75 @@ class App {
     const action = event.target.dataset.action
 
     const transaction_el = event.currentTarget.querySelector('.transaction-container')
-    const id = transaction_el.dataset.id
-    console.log(id)
+    const transaction_id = transaction_el.dataset.id
+    console.log(transaction_id)
 
     if (action === 'delete') {
       //apagar no model
-      cashbook.removeTransaction(id)
+      cashbook.removeTransaction(transaction_id)
       //apagar na view
       transaction_el.remove()
     } else if (action === 'edit') {
       // open a modal to edit the transaction
-      const transaction = {...transaction_el.dataset}
+      // {...} Nesse caso indica o que eu quero adicionar no meu objeto transaction
+      //aqui eu poderia mudar o nome da variavel para trasactionToBeEdit??
+      const transactionToBeEdit = { ...transaction_el.dataset }
 
-      EditItemForm.render(this.#cashbooks, transaction, cashbook)
+      const modal = document.createElement('div')
+      modal.classList.add('modal-container')
+
+      //eu tenho que adicionar o show-modal dentro do content e nao no container
+      modal.classList.add('show-modal')
+
+      const modalContent = EditItemForm.render(this.#cashbooks, transactionToBeEdit, cashbook)
       //colocar esse formulario dentro do modal, colocar uma div. 
-      //create element e adjacent
+
+      //acho que do jeito que eu estou adicionando esta errado
+      modal.insertAdjacentHTML('beforeend', modalContent)
+
+      console.log(modal)
+
+      this.#app_html.appendChild(modal)
+
+      const saveBtn = document.getElementById('save-btn')
+      console.log(saveBtn)
+      saveBtn.addEventListener('click', (e) => {
+        //type, description, value, date virão do formulário
+        //eu preciso pegar os valores do meu form
+        const cashbook_id = document.getElementById('cashbooks').value
+        const type = document.querySelector('input[name=transaction]:checked')?.value
+        // description
+        const description = document.getElementById('description').value
+        // value
+        const value = document.getElementById('value').value
+        // date
+        let date = document.getElementById('date').value
+        const newTransaction = new Item(type, description, value, date)
+        if (cashbook_id === cashbook.id) {
+          cashbook.editTransaction(transactionToBeEdit.id, newTransaction)
+        } else {
+          const newCashbook = this.#cashbooks.filter(cbook => cbook.id === cashbook_id)
+          newCashbook.addTransaction(newTransaction)
+          cashbook.removeTransaction(transaction_id)
+        }
+
+        // se no formulário manteve o cashbook
+
+        //se não manteve o cashbook
+        // tem que encontrar o cashbook correto na lista de cashbooks
+        // pra dai adicionar a transação no cashbook correto 
+        // e remover do cashbook antigo
+
+        //depois ainda temos que fechar o modal
+        modal.remove();
+        this.#cashbooks.forEach((cashbook) => {
+          const cashbookContainer = document.getElementById(cashbook.id)
+          cashbookContainer.remove()
+          CashbookView.render(cashbook, this.#app_html, this.#handle_click)
+        })
+        // e atualizar os valores no view...
+      })
+
     }
   }
 
