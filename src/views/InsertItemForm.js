@@ -12,7 +12,9 @@ export default class InsertItemForm {
 
     static render(cashbooks){
         // o formulário de inserção de item
-        //The self keyword is used to access the static members of the class present in the program
+        //The self keyword is used to access the static members of the class present in the programdiv display none para meu novo cashbook
+
+        //
         return `
         
         <details>

@@ -18,7 +18,7 @@ export default class ItemTransaction {
         const { description, value, type, date, id } = transaction;
 
         return `
-        <div class='transaction-container' data-id="${id}" data-description="${description}" data-value="${value}" data-date="${date}">
+        <div class='transaction-container' data-id="${id}" data-description="${description}" data-value="${value}" data-date="${date}" data-type="${type}">
             <p>${description}</p>
             <p>${value}</p>
             <p>${ItemTransaction.typeToString(type)}</p>

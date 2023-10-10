@@ -35,8 +35,6 @@ class App {
 
       //arrow function nao tem this
       transactions_container.addEventListener('click', (event) => {
-        console.log(this)
-        console.log(this.#handle_click)
         this.#handle_click(event, cashbook)
       })
     })
@@ -84,7 +82,6 @@ class App {
       // {...} Nesse caso indica o que eu quero adicionar no meu objeto transaction
       //aqui eu poderia mudar o nome da variavel para trasactionToBeEdit??
       const transactionToBeEdit = { ...transaction_el.dataset }
-
       const modal = document.createElement('div')
       modal.classList.add('modal-container')
 
@@ -97,29 +94,33 @@ class App {
       //acho que do jeito que eu estou adicionando esta errado
       modal.insertAdjacentHTML('beforeend', modalContent)
 
-      console.log(modal)
 
       this.#app_html.appendChild(modal)
+      //adicionar o event listener pra fechar o modal
 
       const saveBtn = document.getElementById('save-btn')
-      console.log(saveBtn)
       saveBtn.addEventListener('click', (e) => {
+        e.preventDefault()
         //type, description, value, date virão do formulário
         //eu preciso pegar os valores do meu form
-        const cashbook_id = document.getElementById('cashbooks').value
-        const type = document.querySelector('input[name=transaction]:checked')?.value
+        const cashbook_id = document.getElementById('edit-cashbooks').value
+        const type = document.querySelector('input[name=edit-transaction]:checked')?.value
         // description
-        const description = document.getElementById('description').value
+        const description = document.getElementById('edit-description').value
         // value
-        const value = document.getElementById('value').value
+        const value = document.getElementById('edit-value').value
         // date
-        let date = document.getElementById('date').value
+        let date = document.getElementById('edit-date').value
+
         const newTransaction = new Item(type, description, value, date)
+
+
         if (cashbook_id === cashbook.id) {
           cashbook.editTransaction(transactionToBeEdit.id, newTransaction)
         } else {
           const newCashbook = this.#cashbooks.filter(cbook => cbook.id === cashbook_id)
-          newCashbook.addTransaction(newTransaction)
+
+          newCashbook[0].addTransaction(newTransaction)
           cashbook.removeTransaction(transaction_id)
         }
 
@@ -135,8 +136,15 @@ class App {
         this.#cashbooks.forEach((cashbook) => {
           const cashbookContainer = document.getElementById(cashbook.id)
           cashbookContainer.remove()
-          CashbookView.render(cashbook, this.#app_html, this.#handle_click)
+          CashbookView.render(cashbook, this.#app_html)
+          const transactions_container = document.getElementById(cashbook.id)
+
+          transactions_container.addEventListener('click', (event) => {
+            this.#handle_click(event, cashbook)
+          })
         })
+
+
         // e atualizar os valores no view...
       })
 
