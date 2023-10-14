@@ -86,17 +86,28 @@ class App {
       modal.classList.add('modal-container')
 
       //eu tenho que adicionar o show-modal dentro do content e nao no container
-      modal.classList.add('show-modal')
+      //modal.classList.add('show-modal')
 
       const modalContent = EditItemForm.render(this.#cashbooks, transactionToBeEdit, cashbook)
       //colocar esse formulario dentro do modal, colocar uma div. 
 
       //acho que do jeito que eu estou adicionando esta errado
       modal.insertAdjacentHTML('beforeend', modalContent)
-
+      //modal.appendChild(modalContent)
 
       this.#app_html.appendChild(modal)
+
+
+      const closeModal = document.getElementById('close-edit-form')
       //adicionar o event listener pra fechar o modal
+      //para fechar o meu modal eu tenho que remover a class show-modal
+      //div e sempre block por padrao
+      closeModal.addEventListener('click', (e) => {
+        console.log('clicked', e.target)
+        modal.remove()
+      })
+      
+
 
       const saveBtn = document.getElementById('save-btn')
       saveBtn.addEventListener('click', (e) => {

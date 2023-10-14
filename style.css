@@ -1,10 +1,10 @@
-*{
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html, body{
+html, body {
   width: 100%;
   min-height: 100vh;
   font-family: 'Courier New', Courier, monospace;
@@ -24,7 +24,7 @@ h1 {
 
 /* modal style */
 
-.modal-container{
+.modal-container {
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -36,7 +36,7 @@ h1 {
 }
 
 
-.modal-content{
+.modal-content {
   background-color: #fff;
   border-radius: 10px;
   width: 50vw;
@@ -48,8 +48,13 @@ h1 {
   overflow-y: auto;
 }
 
-.show-modal{
-  display: block;
+.close-edit-form {
+  width: 1.5rem;
+  position: absolute;
+  top: 3%;
+  right: 5%;
 }
 
-
+.show-modal {
+  display: block;
+}

@@ -34,8 +34,15 @@ export default class EditItemForm {
         const date1 = year + "-" + month + "-" + day;
         console.log(date1)
         //coloca div com classe display e nao display none
-        return `<button id='close-edit-form' class='close-edit-form'>X</button> 
-        <form>
+        //acho que nao tenho que colocar show-modal nessa div pq ja criei essa classe no main.js
+        return `
+        <button id='close-edit-form' class='close-edit-form'>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="5.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button> 
+        <div>
+            <form>
                 <fieldset>
                 <label for='cashbooks'>Select a Cashbook</label>
                 <select name='cashbooks' id='edit-cashbooks'>
@@ -76,7 +83,7 @@ export default class EditItemForm {
                 <button id='save-btn' class='save-btn'> Save
                 </button>
             </form>
-
+        </div>
         `
     }
 
