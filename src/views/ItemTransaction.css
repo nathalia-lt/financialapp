@@ -1,6 +1,4 @@
-
-
-.transaction-container{
+.transaction-container {
     margin-bottom: 0.5rem;
     display: flex;
     justify-content: space-between;
@@ -9,7 +7,7 @@
     background-color: antiquewhite;
 }
 
-.edit-transaction{
+.edit-transaction {
     padding: 0.3rem 0.6rem;
     border-radius: 10px;
     border: transparent;
@@ -18,7 +16,12 @@
 
 }
 
-.delete-transaction{
+.delete-transaction {
     width: 20px;
     height: 20px;
+}
+
+/* nao queremos que o evento aconteca no svg e sim no botao */
+.delete-transaction svg {
+    pointer-events: none;
 }

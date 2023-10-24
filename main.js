@@ -63,6 +63,9 @@ class App {
    * @returns {void} //void e vazio
    */
   #handle_click(event, cashbook) {
+    console.log('CASHBOOK CLICKED')
+    console.log(event.target)
+//nodeName é o nome da tag que estamos procurando
     if (event.target.nodeName !== 'BUTTON') return
     // console.log(deleteBtn.dataset)
 
@@ -71,9 +74,11 @@ class App {
     const transaction_el = event.currentTarget.querySelector('.transaction-container')
     const transaction_id = transaction_el.dataset.id
     console.log(transaction_id)
+    console.log('BUTTON CLICKED')
 
     if (action === 'delete') {
       //apagar no model
+      console.log('DELETE BUTTON CLICKED')
       cashbook.removeTransaction(transaction_id)
       //apagar na view
       transaction_el.remove()
@@ -106,7 +111,7 @@ class App {
         console.log('clicked', e.target)
         modal.remove()
       })
-      
+
 
 
       const saveBtn = document.getElementById('save-btn')
